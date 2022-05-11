@@ -1,6 +1,9 @@
 {
   "version": 2,
   "projects": {
+    "api": "apps/api",
+    "core": "apps/core",
+    "shared-types": "libs/shared-types",
     "webapp": "apps/webapp",
     "webapp-e2e": "apps/webapp-e2e"
   }
