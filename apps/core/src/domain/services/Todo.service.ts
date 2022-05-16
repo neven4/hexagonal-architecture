@@ -1,6 +1,8 @@
-import { TodoRepository } from '../repositories/TodoRepository';
+import { TodoRepositoryInterface } from '../repositories/Todo.repository.interface';
 
-export const todoService = (repository: TodoRepository): TodoRepository => ({
+export const TodoService = (
+  repository: TodoRepositoryInterface
+): TodoRepositoryInterface => ({
   getTodos: () => {
     return repository.getTodos();
   },

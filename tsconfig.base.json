@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@hexagonal-architecture/core-logic": ["libs/core-logic/src/index.ts"],
       "@hexagonal-architecture/shared-types": ["libs/shared-types/src/index.ts"]
     }
   },

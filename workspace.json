@@ -3,6 +3,7 @@
   "projects": {
     "api": "apps/api",
     "core": "apps/core",
+    "core-logic": "libs/core-logic",
     "shared-types": "libs/shared-types",
     "webapp": "apps/webapp",
     "webapp-e2e": "apps/webapp-e2e"

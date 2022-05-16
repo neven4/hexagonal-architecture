@@ -1,37 +1,35 @@
-import { useCallback, useRef, useState } from 'react';
-let render = 0;
+import { useCallback, useRef } from 'react';
+import { useTodo } from '../infrastructure/services';
 
 export function Index() {
-  const [count, setCount] = useState(0);
-
-  render++;
-  console.log(render);
-
-  // const { todos, addTodo, togggleTodo } = useTodos();
+  const { todos, toggleTodo, addTodo } = useTodo();
 
   const textInputRef = useRef<HTMLInputElement>(null);
 
   const onAddTodo = useCallback(async () => {
-    console.log('setting count');
+    if (textInputRef.current) {
+      await addTodo(textInputRef.current.value);
 
-    setCount((count) => count + 1);
-    setCount((count) => count + 1);
-  }, []);
+      textInputRef.current.value = '';
+    }
+  }, [addTodo]);
 
   return (
     <div>
       <div>
-        {count}
-        {/* {todos.map((todo) => (
-          <div key={todo.id}>
-            <input
-              type="checkbox"
-              checked={todo.done}
-              onChange={() => togggleTodo(todo.id)}
-            />
-            {todo.text}
-          </div>
-        ))} */}
+        {todos.map((todo) => {
+          return (
+            <div key={todo.id}>
+              <input
+                type="checkbox"
+                checked={todo.done}
+                onChange={() => toggleTodo(todo.id)}
+              />
+
+              {todo.text}
+            </div>
+          );
+        })}
       </div>
       <div>
         <input ref={textInputRef} />
