@@ -2,9 +2,10 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
-    "core": "apps/core",
     "core-logic": "libs/core-logic",
     "shared-types": "libs/shared-types",
+    "solidjs-app": "apps/solidjs-app",
+    "solidjs-app-e2e": "apps/solidjs-app-e2e",
     "webapp": "apps/webapp",
     "webapp-e2e": "apps/webapp-e2e"
   }
