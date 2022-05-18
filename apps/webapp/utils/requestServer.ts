@@ -2,16 +2,26 @@ interface Request {
   url: string;
   method: 'POST' | 'GET' | 'DELETE' | 'PUT' | 'PATCH';
   body?: Record<string, unknown> | null | void;
-  query?: Record<string, string>;
   headers?: Record<string, string>;
   cookies?: string;
 }
+type CustomResponse<ResoponseBody = Record<string, never>> =
+  | SuccessResponse<ResoponseBody>
+  | ErrorResponse;
 
-interface CustomResponse<ResoponseBody> {
-  ok: boolean;
+interface SuccessResponse<ResoponseBody> {
+  ok: true;
   body: ResoponseBody;
   status: number;
   headers: Record<string, string>;
+  error: undefined;
+}
+interface ErrorResponse {
+  ok: false;
+  body: Record<string, never>;
+  status: number;
+  headers: Record<string, string>;
+  error: Error;
 }
 
 export async function requestServer<ResponseBody>({
@@ -43,10 +53,10 @@ export async function requestServer<ResponseBody>({
 
     const parsedResponse: CustomResponse<ResponseBody> = {
       ok: response.ok,
-      body: answer,
+      body: response.ok ? answer : {},
       status: response.status,
-      //@ts-ignore
       headers: Object.fromEntries(response.headers.entries()),
+      error: response.ok ? undefined : answer,
     };
 
     if (response.ok) {
@@ -56,11 +66,12 @@ export async function requestServer<ResponseBody>({
     throw parsedResponse;
   } catch (error) {
     if (error instanceof Error) {
-      const errorResponse: CustomResponse<ResponseBody> = {
+      const errorResponse: CustomResponse = {
         ok: false,
-        body: error,
+        body: {},
         status: 900,
         headers: {},
+        error,
       };
 
       return errorResponse;

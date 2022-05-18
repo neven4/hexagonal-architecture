@@ -2,34 +2,58 @@ import {
   TodoRepositoryInterface,
   Todo,
 } from '@hexagonal-architecture/core-logic';
-import { requestServer } from '../../utils';
 import { API_SERVER_URL } from '../../constants';
+import { StoreRepositoryInterface } from '../store/respositories/Store.respository.interface';
+import { createStore } from '../store';
+import { ApiClientService } from '../apiClient/services/ApiClient.service';
+import apiClientRepository from '../apiClient';
+import { ApiClientRepositoryInterface } from '../apiClient/repositories/ApiClient.respository.interface';
+
+interface TodoState {
+  todo: Todo[];
+}
+
+const initialState: TodoState = {
+  todo: [],
+};
 
 class TodoRepository implements TodoRepositoryInterface {
-  async getTodos() {
-    const response = await requestServer<Todo[]>({
+  constructor(
+    private store: StoreRepositoryInterface<TodoState>,
+    private apiClient: ApiClientRepositoryInterface
+  ) {}
+
+  async getTodos(): Promise<Todo[]> {
+    const response = await this.apiClient.get<Todo[]>({
       url: API_SERVER_URL,
-      method: 'GET',
     });
 
-    return response.body;
+    if (response.ok) {
+      this.store.set('todo', response.body);
+
+      return response.body;
+    }
+
+    return this.store.get('todo');
   }
   async addTodo(text: string) {
-    await requestServer({
+    await this.apiClient.post({
       url: `${API_SERVER_URL}/create`,
-      method: 'POST',
       body: { text },
     });
   }
   async setDone(id: number, done: boolean) {
-    await requestServer({
+    await this.apiClient.post({
       url: `${API_SERVER_URL}/setDone`,
-      method: 'POST',
       body: { id, done },
     });
   }
 }
 
-const todoRepository = new TodoRepository();
+const store = createStore(initialState);
+
+const apiClient = ApiClientService(apiClientRepository);
+
+const todoRepository = new TodoRepository(store, apiClient);
 
 export default todoRepository;
