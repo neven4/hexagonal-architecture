@@ -1,7 +1,9 @@
-import { TodoService } from '@hexagonal-architecture/core-logic';
-import { Todo } from '@hexagonal-architecture/shared-types';
+import {
+  Todo,
+  todoRepository,
+  TodoService,
+} from '@hexagonal-architecture/core-logic';
 import { createResource } from 'solid-js';
-import todoRepository from '../repositories/Todo.respository';
 
 const todoService = TodoService(todoRepository);
 

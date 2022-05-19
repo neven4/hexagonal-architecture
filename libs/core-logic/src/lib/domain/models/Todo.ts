@@ -1,1 +1,5 @@
-export { Todo } from '@hexagonal-architecture/shared-types';
+export interface Todo {
+  id: number;
+  text: string;
+  done: boolean;
+}

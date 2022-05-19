@@ -1,4 +1,4 @@
-import { Todo } from '@hexagonal-architecture/shared-types';
+import { Todo } from '@hexagonal-architecture/shared-type';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

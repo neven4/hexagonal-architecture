@@ -3,10 +3,9 @@
   "projects": {
     "api": "apps/api",
     "core-logic": "libs/core-logic",
-    "shared-types": "libs/shared-types",
-    "solidjs-app": "apps/solidjs-app",
-    "solidjs-app-e2e": "apps/solidjs-app-e2e",
-    "webapp": "apps/webapp",
-    "webapp-e2e": "apps/webapp-e2e"
+    "react-app": "apps/react-app",
+    "react-native-app": "apps/react-native-app",
+    "shared-type": "libs/shared-type",
+    "solidjs-app": "apps/solidjs-app"
   }
 }
